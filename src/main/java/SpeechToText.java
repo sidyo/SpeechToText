@@ -24,6 +24,11 @@ import com.google.cloud.speech.v1.SpeechClient;
 import com.google.cloud.speech.v1.SpeechRecognitionAlternative;
 import com.google.cloud.speech.v1.SpeechRecognitionResult;
 import com.google.protobuf.ByteString;
+
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -39,10 +44,18 @@ public class SpeechToText {
         try (SpeechClient speechClient = SpeechClient.create()) {
 
             // The path to the audio file to transcribe
-            String fileName = "C:\\Users\\vinit\\Desktop\\SpeechToText2\\src\\main\\resources\\OSR_us_000_0019_8k.wav";
+            String fileName = "src/main/resources/OSR_us_000_0019_8k.wav";
 
             // Reads the audio file into memory
             Path path = Paths.get(fileName);
+            File file = new File(fileName);
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+            AudioFormat format = audioInputStream.getFormat();
+            long audioFileLength = file.length();
+            long frameSize = format.getFrameSize();
+            float frameRate = format.getFrameRate();
+            double durationInSeconds = (audioFileLength / (frameSize * frameRate));
+            System.out.println("Duration: "+durationInSeconds);
             byte[] data = Files.readAllBytes(path);
             ByteString audioBytes = ByteString.copyFrom(data);
 
