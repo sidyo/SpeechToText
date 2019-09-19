@@ -1,82 +1,65 @@
-/*
- * Copyright 2018 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-// [START speech_quickstart]
-// Imports the Google Cloud client library
-import com.google.cloud.speech.v1.RecognitionAudio;
-import com.google.cloud.speech.v1.RecognitionConfig;
-import com.google.cloud.speech.v1.RecognitionConfig.AudioEncoding;
-import com.google.cloud.speech.v1.RecognizeResponse;
-import com.google.cloud.speech.v1.SpeechClient;
-import com.google.cloud.speech.v1.SpeechRecognitionAlternative;
-import com.google.cloud.speech.v1.SpeechRecognitionResult;
+import com.google.cloud.speech.v1.*;
 import com.google.protobuf.ByteString;
-
+import lombok.extern.slf4j.Slf4j;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+@Slf4j
 public class SpeechToText {
+    RecognitionConfig config;
 
-    /**
-     * Demonstrates using the Speech API to transcribe an audio file.
-     */
-    public static void main(String... args) throws Exception {
-        // Instantiates a client
+    private static final String BASE_PATH = "src/main/resources/";
+
+    public SpeechToText() throws IOException {
+        config = RecognitionConfig.newBuilder()
+                .setLanguageCode("en-US")
+                .build();
+    }
+
+    public SpeechResult buildSpeechResult(String fileName) throws IOException, UnsupportedAudioFileException {
         try (SpeechClient speechClient = SpeechClient.create()) {
-
-            // The path to the audio file to transcribe
-            String fileName = "src/main/resources/OSR_us_000_0019_8k.wav";
-
-            // Reads the audio file into memory
-            Path path = Paths.get(fileName);
-            File file = new File(fileName);
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
-            AudioFormat format = audioInputStream.getFormat();
-            long audioFileLength = file.length();
-            long frameSize = format.getFrameSize();
-            float frameRate = format.getFrameRate();
-            double durationInSeconds = (audioFileLength / (frameSize * frameRate));
-            System.out.println("Duration: "+durationInSeconds);
+            System.out.println("Transcripting file.");
+            String filePath = BASE_PATH + fileName;
+            Path path = Paths.get(filePath);
             byte[] data = Files.readAllBytes(path);
             ByteString audioBytes = ByteString.copyFrom(data);
-
-            // Builds the sync recognize request
-            RecognitionConfig config = RecognitionConfig.newBuilder()
-                    .setLanguageCode("en-US")
-                    .build();
+            System.out.println(path.toString());
             RecognitionAudio audio = RecognitionAudio.newBuilder()
                     .setContent(audioBytes)
                     .build();
-
-            // Performs speech recognition on the audio file
             RecognizeResponse response = speechClient.recognize(config, audio);
-            List<SpeechRecognitionResult> results = response.getResultsList();
-
-            for (SpeechRecognitionResult result : results) {
-                // There can be several alternative transcripts for a given chunk of speech. Just use the
-                // first (most likely) one here.
-                SpeechRecognitionAlternative alternative = result.getAlternativesList().get(0);
-                System.out.printf("Transcription: %s%n", alternative.getTranscript());
-            }
+            System.out.println("Transcription done.");
+            return SpeechResult.builder()
+                    .fileName(filePath)
+                    .AudioText(buildTranscription(response.getResultsList()))
+                    .audioDuration(getAudioDuration(filePath))
+                    .build();
         }
+    }
+
+    private double getAudioDuration(String filePath) throws IOException, UnsupportedAudioFileException {
+        File file = new File(filePath);
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+        AudioFormat format = audioInputStream.getFormat();
+        long audioFileLength = file.length();
+        long frameSize = format.getFrameSize();
+        float frameRate = format.getFrameRate();
+        return (audioFileLength / (frameSize * frameRate));
+    }
+
+    private String buildTranscription(List<SpeechRecognitionResult> response) {
+        StringBuilder resultBuilder = new StringBuilder();
+        for (SpeechRecognitionResult recognitionResult : response) {
+            resultBuilder.append(recognitionResult.getAlternatives(0).getTranscript()).append(" ");
+        }
+        return resultBuilder.toString().trim();
     }
 }
