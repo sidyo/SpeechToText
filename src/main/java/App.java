@@ -55,5 +55,7 @@ public class App {
         } catch (IOException e) {
             System.err.format("IOException: %s%n", e);
         }
+
+        System.out.println("Transcription file created in "+BASE_PATH+folder+"/"+folder+"Transcription.txt");
     }
 }

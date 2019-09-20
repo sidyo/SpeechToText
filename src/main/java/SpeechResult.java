@@ -14,10 +14,17 @@ public class SpeechResult {
     private String emotion;
 
     public void setEmotion(String emotion){
-        if(emotion.equals("Happy")){
-           this.emotion = emotion;
-        }else{
-            System.out.println("Unsuported Emotion. Please choose between Happy");
+        try{
+            Emotions emotions = Emotions.valueOf(emotion.toUpperCase());
+            this.emotion = emotions.emotion;
+
+        }catch(IllegalArgumentException e){
+            System.out.print("Unsuported Emotion. Please choose one of the following: ");
+            Emotions[] availableEmotions = Emotions.values();
+            for (int i = 0; i < availableEmotions.length; i++) {
+                System.out.print(availableEmotions[i].emotion);
+                System.out.print(i!=availableEmotions.length-1? ", ": ".\n");
+            }
         }
     }
 
