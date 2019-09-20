@@ -8,8 +8,29 @@ import lombok.ToString;
 @ToString
 @Builder
 public class SpeechResult {
-    String fileName;
-    String AudioText;
-    double audioDuration;
-    String Emotion;
+    private String fileName;
+    private double duration;
+    private String transcription;
+    private String emotion;
+
+    public void setEmotion(String emotion){
+        if(emotion.equals("Happy")){
+           this.emotion = emotion;
+        }else{
+            System.out.println("Unsuported Emotion. Please choose between Happy");
+        }
+    }
+
+    public String toFileText(){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder
+                .append(fileName)
+                .append(";")
+                .append(duration)
+                .append(";")
+                .append(transcription)
+                .append(";")
+                .append(emotion);
+        return stringBuilder.toString();
+    }
 }

@@ -18,7 +18,7 @@ public class SpeechToText {
 
     private static final String BASE_PATH = "src/main/resources/";
 
-    public SpeechToText() throws IOException {
+    public SpeechToText(){
         config = RecognitionConfig.newBuilder()
                 .setLanguageCode("en-US")
                 .build();
@@ -26,7 +26,7 @@ public class SpeechToText {
 
     public SpeechResult buildSpeechResult(String fileName) throws IOException, UnsupportedAudioFileException {
         try (SpeechClient speechClient = SpeechClient.create()) {
-            System.out.println("Transcripting file.");
+            System.out.println("Transcribing file.");
             String filePath = BASE_PATH + fileName;
             Path path = Paths.get(filePath);
             byte[] data = Files.readAllBytes(path);
@@ -39,8 +39,8 @@ public class SpeechToText {
             System.out.println("Transcription done.");
             return SpeechResult.builder()
                     .fileName(filePath)
-                    .AudioText(buildTranscription(response.getResultsList()))
-                    .audioDuration(getAudioDuration(filePath))
+                    .transcription(buildTranscription(response.getResultsList()))
+                    .duration(getAudioDuration(filePath))
                     .build();
         }
     }

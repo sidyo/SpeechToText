@@ -21,9 +21,11 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.10'
     compile "org.slf4j:slf4j-api:1.6.1"
     compile "org.slf4j:slf4j-simple:1.6.1"
-
-
 }
 
 mainClassName = 'App'
+
+run{
+    standardInput = System.in
+}
 

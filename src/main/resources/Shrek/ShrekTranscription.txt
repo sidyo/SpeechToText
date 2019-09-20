@@ -1,0 +1,2 @@
+src/main/resources/Shrek/Shrek0.wav;1.2508842945098877;very nice Shrek;Happy
+src/main/resources/Shrek/Shrek1.wav;2.800884246826172;what I told you coming here was a bad idea;Happy
