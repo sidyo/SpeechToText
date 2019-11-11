@@ -1,10 +1,10 @@
-src/main/resources/Shrek/Shrek0.wav;1.2508842945098877;very nice Shrek;Anger
-src/main/resources/Shrek/Shrek1.wav;2.800884246826172;what I told you coming here was a bad idea;Neutral
-src/main/resources/Shrek/Shrek2.wav;2.8408844470977783;you could have at least tried to get along with my father;Anger
-src/main/resources/Shrek/Shrek3.wav;4.620884418487549;somehow I don't think I was going to get Daddy's blessing even if I did want it;Neutral
-src/main/resources/Shrek/Shrek4.wav;3.850884437561035;will do you think it might be nice if somebody asked me what I wanted;Anger
+src/main/resources/Shrek/Shrek0.wav;1.2508842945098877;very nice Shrek;Happiness
+src/main/resources/Shrek/Shrek1.wav;2.800884246826172;what I told you coming here was a bad idea;Sadness
+src/main/resources/Shrek/Shrek2.wav;2.8408844470977783;you could have at least tried to get along with my father;Sadness
+src/main/resources/Shrek/Shrek3.wav;4.620884418487549;somehow I don't think I was going to get Daddy's blessing even if I did want it;Sadness
+src/main/resources/Shrek/Shrek4.wav;3.850884437561035;will do you think it might be nice if somebody asked me what I wanted;Happiness
 src/main/resources/Shrek/Shrek5.wav;3.0008842945098877;sure do you want me to pack for you;Neutral
-src/main/resources/Shrek/Shrek6.wav;4.300884246826172;you're unbelievable;Surprise
+src/main/resources/Shrek/Shrek6.wav;4.300884246826172;you're unbelievable;Neutral
 src/main/resources/Shrek/Shrek7.wav;2.0008842945098877;go on say it;Neutral
-src/main/resources/Shrek/Shrek8.wav;1.4008843898773193;like an ogre;Anger
-src/main/resources/Shrek/Shrek9.wav;10.000884056091309;what is a news flash for you whether your parents like it or not I am on Olga;Neutral
+src/main/resources/Shrek/Shrek8.wav;1.4008843898773193;like an ogre;Happiness
+src/main/resources/Shrek/Shrek9.wav;10.000884056091309;what is a news flash for you whether your parents like it or not I am on Olga;Surprise
