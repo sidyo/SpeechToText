@@ -10,3 +10,9 @@ E.g: Folder name: Shrek
 Then as arguments for the application you provide the folder name and the number of audio files inside the folder.
 
 Example run command: gradle run --console=plain -q --args='Shrek 10'
+
+Tone Analyzer Dependency:
+API_KEY
+API_VERSION
+API_SERVICE_URL
+https://www.ibm.com/br-pt/cloud/watson-tone-analyzer
